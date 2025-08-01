@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Tracker - D- Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      background: linear-gradient(135deg,#e3eafc 0%, #fdf6f0 100%);
+      margin: 0; min-height: 100vh; padding-bottom: 60px;
+    }
+    .header-bar {
+      background: #fff;
+      border-radius: 25px;
+      margin: 22px auto 0 auto;
+      max-width: 950px;
+      box-shadow: 0 8px 28px rgba(52,152,219,0.09), 0 1.5px 8px rgba(0,0,0,0.07);
+      padding: 24px 18px 18px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 18px;
+      position: relative;
+    }
+    .logo-icon {
+      width: 50px; height: 50px; margin-right: 10px; flex-shrink: 0;
+      display: inline-block;
+    }
+    .logo-text {
+      text-align: left; color: #ff0000; font-size: 2.2em;
+      font-family: 'Times New Roman', serif; font-weight: bold;
+      margin-right: 50px; letter-spacing: 2px;
+      text-shadow: 0 1px 8px rgba(255,0,0,0.10); display: inline-block; vertical-align: middle;
+    }
+    .menu-bar {
+      margin-left: auto; position: relative;
+    }
+    .menu-icon {
+      width: 38px; height: 38px; cursor: pointer; background: none; border: none; outline: none;
+    }
+    .menu-popup {
+      display: none;
+      position: absolute;
+      top: 54px;
+      right: 0;
+      background: #fff;
+      border-radius: 11px;
+      box-shadow: 0 8px 28px rgba(52,152,219,0.11);
+      padding: 10px 0;
+      min-width: 210px;
+      z-index: 10;
+      animation: zoomInMenu 0.22s;
+    }
+    @keyframes zoomInMenu {
+      from { transform: scale(0.8); opacity: 0;}
+      to { transform: scale(1); opacity: 1;}
+    }
+    .menu-popup button {
+      width: 100%;
+      background: none;
+      color: #3498db;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1.13em;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.14s, color 0.14s;
+      border-radius: 0;
+      margin: 0;
+    }
+    .menu-popup button:hover {
+      background: linear-gradient(90deg, #3498db 0%, #ff0000 90%);
+      color: #fff;
+    }
+    .mood-section {
+      margin: 50px auto 0 auto;
+      max-width: 480px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 30px 30px 20px 30px;
+      box-shadow: 0 2px 14px rgba(52,152,219,0.09);
+    }
+    .mood-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #ff0000;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    .mood-row {
+      display: flex;
+      justify-content: center;
+      gap: 23px;
+      margin-bottom: 20px;
+    }
+    .mood-emoji {
+      font-size: 2.4em;
+      cursor: pointer;
+      transition: transform 0.16s;
+      border-radius: 50%;
+      padding: 8px;
+      border: 2.5px solid transparent;
+    }
+    .mood-emoji.selected {
+      background: #fdf6f0;
+      border: 2.5px solid #3498db;
+      transform: scale(1.13);
+    }
+    .note-input {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 7px;
+      border: 1.5px solid #e3eafc;
+      background: #f5f6fa;
+      font-size: 1.07em;
+      outline: none;
+      margin-bottom: 21px;
+    }
+    .note-input:focus {
+      border: 1.5px solid #3498db;
+      background: #f8faff;
+    }
+    .save-btn {
+      background: linear-gradient(90deg,#3498db 60%,#ff0000 110%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 1.09em;
+      font-weight: 600;
+      padding: 11px 0;
+      width: 100%;
+      box-shadow: 0 1.5px 8px rgba(52,152,219,0.08);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 10px;
+    }
+    .save-btn:hover {
+      background: linear-gradient(90deg,#ff0000 0%, #3498db 100%);
+    }
+    .mood-history {
+      margin-top: 40px;
+    }
+    .history-title {
+      font-size: 1.19em;
+      font-weight: 600;
+      color: #3498db;
+      margin-bottom: 13px;
+    }
+    .history-list {
+      list-style: none;
+      padding: 0;
+    }
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: #f5f6fa;
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin-bottom: 10px;
+      font-size: 1.05em;
+    }
+    .history-emoji {
+      font-size: 1.6em;
+      margin-right: 3px;
+    }
+    .history-note {
+      flex: 1;
+      color: #888;
+    }
+    .history-date {
+      font-size: 0.97em;
+      color: #3498db;
+    }
+  </style>
+</head>
+<body>
+  <div class="header-bar">
+    <span class="logo-icon">
+      <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+        <rect x="7" y="7" width="34" height="34" rx="8" fill="#fdf6f0" stroke="#3498db" stroke-width="2"/>
+        <rect x="13" y="13" width="22" height="22" rx="5" fill="#fff" stroke="#ff0000" stroke-width="2"/>
+        <path d="M17 18 h14 M17 22 h14 M17 26 h7" stroke="#3498db" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="33" cy="31" rx="2.2" ry="2.2" fill="#ffd700" stroke="#3498db" stroke-width="1"/>
+      </svg>
+    </span>
+    <span class="logo-text">D- Journal</span>
+    <div class="menu-bar">
+      <button class="menu-icon" id="menuBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="38" height="38" fill="none">
+          <rect y="4" width="24" height="3.5" rx="1.7" fill="#3498db"/>
+          <rect y="10" width="24" height="3.5" rx="1.7" fill="#ff0000"/>
+          <rect y="16" width="24" height="3.5" rx="1.7" fill="#3498db"/>
+        </svg>
+      </button>
+      <div class="menu-popup" id="menuPopup">
+        <button onclick="window.location.href='home.html'">Home</button>
+        <button onclick="window.location.href='mood.html'">Mood Tracker</button>
+        <button onclick="window.location.href='settings.html'">Settings</button>
+        <button onclick="window.location.href='index.html'">Logout</button>
+      </div>
+    </div>
+  </div>
+  <div class="mood-section">
+    <div class="mood-title">Today's Mood</div>
+    <div class="mood-row" id="moodRow">
+      <span class="mood-emoji" data-mood="😀" title="Happy">😀</span>
+      <span class="mood-emoji" data-mood="😊" title="Content">😊</span>
+      <span class="mood-emoji" data-mood="😐" title="Neutral">😐</span>
+      <span class="mood-emoji" data-mood="😔" title="Sad">😔</span>
+      <span class="mood-emoji" data-mood="😡" title="Angry">😡</span>
+      <span class="mood-emoji" data-mood="😴" title="Tired">😴</span>
+    </div>
+    <input type="text" class="note-input" id="noteInput" placeholder="Add a note about your mood (optional)">
+    <button class="save-btn" id="saveMoodBtn">Save Mood</button>
+    <div class="mood-history" id="moodHistory">
+      <div class="history-title">Mood History</div>
+      <ul class="history-list" id="historyList"></ul>
+    </div>
+  </div>
+  <script src="storage.js"></script>
+  <script>
+    // Menu popup logic
+    const menuBtn = document.getElementById("menuBtn");
+    const menuPopup = document.getElementById("menuPopup");
+    menuBtn.onclick = function(e) {
+      menuPopup.style.display = menuPopup.style.display === "block" ? "none" : "block";
+      e.stopPropagation();
+    };
+    window.onclick = function() {
+      menuPopup.style.display = "none";
+    };
+    menuPopup.onclick = function(e) { e.stopPropagation(); };
+
+    // Authentication check
+    let loggedInEmail = getLoggedInEmail();
+    const user = loggedInEmail ? getUserByEmail(loggedInEmail) : null;
+    if (!loggedInEmail || !user) {
+      window.location.href = "index.html";
+    }
+
+    // Mood selection logic
+    const moodRow = document.getElementById("moodRow");
+    let selectedMood = null;
+    Array.from(moodRow.children).forEach(emoji => {
+      emoji.onclick = function() {
+        Array.from(moodRow.children).forEach(e => e.classList.remove('selected'));
+        emoji.classList.add('selected');
+        selectedMood = emoji.getAttribute('data-mood');
+      };
+    });
+
+    // Saving and displaying mood history
+    const saveMoodBtn = document.getElementById("saveMoodBtn");
+    const noteInput = document.getElementById("noteInput");
+    const historyList = document.getElementById("historyList");
+
+    function renderHistory() {
+      historyList.innerHTML = "";
+      let moodsKey = loggedInEmail ? "moods-" + loggedInEmail : "moods-anonymous";
+      let moods = JSON.parse(localStorage.getItem(moodsKey) || "[]");
+      moods.sort((a,b)=>b.timestamp-a.timestamp);
+      moods.forEach(m => {
+        let li = document.createElement("li");
+        li.className = "history-item";
+        li.innerHTML = `
+          <span class="history-emoji">${m.mood}</span>
+          <span class="history-note">${m.note ? m.note : ""}</span>
+          <span class="history-date">${new Date(m.timestamp).toLocaleString()}</span>
+        `;
+        historyList.appendChild(li);
+      });
+    }
+
+    saveMoodBtn.onclick = function() {
+      if (!selectedMood) {
+        alert("Please select your mood for today.");
+        return;
+      }
+      let moodsKey = loggedInEmail ? "moods-" + loggedInEmail : "moods-anonymous";
+      let moods = JSON.parse(localStorage.getItem(moodsKey) || "[]");
+      moods.push({
+        mood: selectedMood,
+        note: noteInput.value.trim(),
+        timestamp: Date.now()
+      });
+      localStorage.setItem(moodsKey, JSON.stringify(moods));
+      selectedMood = null;
+      Array.from(moodRow.children).forEach(e => e.classList.remove('selected'));
+      noteInput.value = "";
+      renderHistory();
+    };
+
+    renderHistory();
+  </script>
+</body>
+</html>

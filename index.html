@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In - D- Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      background: linear-gradient(135deg, #e3eafc 0%, #fdf6f0 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(52, 152, 219, 0.08), 0 1.5px 8px rgba(0,0,0,0.08);
+      padding: 38px 32px 32px 32px;
+      width: 100%;
+      max-width: 370px;
+      text-align: center;
+    }
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      margin-right: 10px;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+    .logo-text {
+      text-align: left;
+      color: #ff0000;
+      font-size: 2em;
+      font-family: 'Times New Roman', serif;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 0 1px 8px rgba(255,0,0,0.10);
+      display: inline-block;
+      vertical-align: middle;
+    }
+    h1 {
+      display: none;
+    }
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 6px;
+      color: #3498db;
+      font-weight: 500;
+      font-size: 1.03em;
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px 13px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1.5px solid #e3eafc;
+      background: #f5f6fa;
+      font-size: 1em;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input[type="email"]:focus, input[type="password"]:focus {
+      border: 1.5px solid #3498db;
+      background: #f8faff;
+    }
+    button {
+      background: linear-gradient(90deg, #3498db 60%, #ff0000 110%);
+      color: #fff;
+      font-size: 1.08em;
+      font-weight: 600;
+      padding: 11px 0;
+      border: none;
+      border-radius: 7px;
+      width: 100%;
+      box-shadow: 0 1.5px 8px rgba(52,152,219,0.08);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #ff0000 0%, #3498db 100%);
+    }
+    .signup-link {
+      color: #888;
+      font-size: 0.98em;
+      margin-top: 16px;
+    }
+    .signup-link a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .signup-link a:hover {
+      text-decoration: underline;
+      color: #ff0000;
+    }
+    /* Menu styles */
+    .menu-bar {
+      margin-left: auto;
+      position: relative;
+    }
+    .menu-icon {
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      display: inline-block;
+      background: none;
+      border: none;
+      outline: none;
+    }
+    .menu-popup {
+      display: none;
+      position: absolute;
+      top: 44px;
+      right: 0;
+      background: #fff;
+      border-radius: 11px;
+      box-shadow: 0 8px 28px rgba(52,152,219,0.11);
+      padding: 10px 0;
+      min-width: 180px;
+      z-index: 10;
+      animation: zoomInMenu 0.22s;
+    }
+    @keyframes zoomInMenu {
+      from { transform: scale(0.8); opacity: 0;}
+      to { transform: scale(1); opacity: 1;}
+    }
+    .menu-popup button {
+      width: 100%;
+      background: none;
+      color: #3498db;
+      border: none;
+      padding: 13px 24px;
+      font-size: 1.09em;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.14s, color 0.14s;
+      border-radius: 0;
+      margin: 0;
+    }
+    .menu-popup button:hover {
+      background: linear-gradient(90deg, #3498db 0%, #ff0000 90%);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-bar">
+      <!-- Dairy Icon SVG -->
+      <span class="logo-icon">
+        <svg viewBox="0 0 48 48" width="44" height="44" fill="none">
+          <rect x="7" y="7" width="34" height="34" rx="8" fill="#fdf6f0" stroke="#3498db" stroke-width="2"/>
+          <rect x="13" y="13" width="22" height="22" rx="5" fill="#fff" stroke="#ff0000" stroke-width="2"/>
+          <path d="M17 18 h14 M17 22 h14 M17 26 h7" stroke="#3498db" stroke-width="2" stroke-linecap="round"/>
+          <ellipse cx="33" cy="31" rx="2.2" ry="2.2" fill="#ffd700" stroke="#3498db" stroke-width="1"/>
+        </svg>
+      </span>
+      <span class="logo-text">D- Journal</span>
+      <div class="menu-bar">
+        <button class="menu-icon" id="menuBtn" aria-label="Menu">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none">
+            <rect y="4" width="24" height="3.5" rx="1.7" fill="#3498db"/>
+            <rect y="10" width="24" height="3.5" rx="1.7" fill="#ff0000"/>
+            <rect y="16" width="24" height="3.5" rx="1.7" fill="#3498db"/>
+          </svg>
+        </button>
+        <div class="menu-popup" id="menuPopup">
+          <button onclick="window.location.href='home.html'">Home</button>
+          <button onclick="window.location.href='mood.html'">Mood Tracker</button>
+          <button onclick="window.location.href='settings.html'">Settings</button>
+          <button onclick="window.location.href='index.html'">Logout</button>
+        </div>
+      </div>
+    </div>
+    <h1>D- Journal</h1>
+    <form id="login-form">
+      <label for="email">Email</label>
+      <input type="email" id="email" required placeholder="Enter your email">
+      <label for="password">Password</label>
+      <input type="password" id="password" required placeholder="Enter password">
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="signup-link">
+      Don't have an account? 
+      <a href="signup.html">Sign Up</a>
+    </div>
+  </div>
+  <script src="storage.js"></script>
+  <script>
+    // Menu popup logic
+    const menuBtn = document.getElementById("menuBtn");
+    const menuPopup = document.getElementById("menuPopup");
+    menuBtn.onclick = function(e) {
+      menuPopup.style.display = menuPopup.style.display === "block" ? "none" : "block";
+      e.stopPropagation();
+    };
+    window.onclick = function() {
+      menuPopup.style.display = "none";
+    };
+    menuPopup.onclick = function(e) { e.stopPropagation(); };
+
+    // Login logic
+    const loginForm = document.getElementById("login-form");
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const user = getUserByEmail(email);
+      if (user) {
+        if (user.password === password) {
+          setLoggedInEmail(email);
+          window.location.href = "home.html";
+        } else {
+          alert("Invalid password. Please try again.");
+        }
+      } else {
+        alert("User not found. Please sign up.");
+      }
+    });
+  </script>
+</body>
+</html>
